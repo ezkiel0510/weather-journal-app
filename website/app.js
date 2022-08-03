@@ -4,7 +4,7 @@ const apiKey = "&appid=8daf109b273336acf3e7a25d67294521&units=imperial";
 
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
+let newDate = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear();
 
 document.addEventListener("DOMContentLoaded", function () {
   document
@@ -16,7 +16,7 @@ function generateWeather(e) {
   const zip = document.getElementById("zip").value;
   const feelings = document.getElementById("feelings").value;
   getWeather(baseURL, zip, apiKey).then(function (data) {
-    postData("/addWeather", {
+    postData("/addData", {
       date: newDate,
       temp: data.main.temp,
       feel: feelings,
@@ -62,10 +62,9 @@ const updateUI = async () => {
   const res = await fetch("/all");
   try {
     const data = await res.json();
-    document.getElementById("temp").innerHTML =
-      data[data.length - 1].temp + " degrees";
-    document.getElementById("content").innerHTML = data[data.length - 1].feel;
-    document.getElementById("date").innerHTML = data[data.length - 1].date;
+    document.getElementById("temp").innerHTML = data.temp + " degrees";
+    document.getElementById("content").innerHTML = data.feel;
+    document.getElementById("date").innerHTML = data.date;
   } catch (error) {
     console.log("error", error);
   }
